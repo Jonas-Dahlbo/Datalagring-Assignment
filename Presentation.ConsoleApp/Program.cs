@@ -24,6 +24,7 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
 
 builder.Start();
 
+Console.Clear();
 Console.ReadKey();
 var contactService = builder.Services.GetRequiredService<ContactService>();
 var result = contactService.CreateContact(new ContactDto

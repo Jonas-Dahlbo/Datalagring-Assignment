@@ -24,7 +24,7 @@ public class AddressRepository(DataContext context) : BaseRepository<AddressEnti
     {
         try
         {
-            return _context.Addresses.Include(i => i.Country).FirstOrDefault(predicate, null!);
+            return _context.Addresses.Include(i => i.Country).FirstOrDefault(predicate)!;
         }
         catch (Exception ex) { Debug.WriteLine("ERROR ::" + ex.Message); }
         return null!;

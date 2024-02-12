@@ -26,7 +26,7 @@ namespace Infrastructure.Services
                         City = contact.City,
                         PostalCode = contact.PostalCode,
                         StreetName = contact.StreetName,
-                        CountryId = countryEntity.Id,
+                        Country = countryEntity,
                     };
 
                     var salaryEntity = _salaryRepository.GetOne(x => x.Salary == contact.Salary);
@@ -37,7 +37,7 @@ namespace Infrastructure.Services
                         Id = Guid.NewGuid().ToString(),
                         Occupation = contact.Occupation,
                         Description = contact.Description,
-                        SalaryId = salaryEntity.Id
+                        Salary = salaryEntity
                     };
 
                     var contactEntity = new ContactEntity
@@ -46,8 +46,8 @@ namespace Infrastructure.Services
                         FirstName = contact.FirstName,
                         LastName = contact.LastName,
                         Email = contact.Email,
-                        AddressId = addressEntity.Id,
-                        OccupationId = occupationEntity.Id
+                        Address = addressEntity,
+                        Occupation = occupationEntity
                     };
 
                     var result = _contactRepository.Create(contactEntity);

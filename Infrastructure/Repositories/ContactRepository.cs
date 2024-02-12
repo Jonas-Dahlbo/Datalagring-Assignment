@@ -33,7 +33,7 @@ public class ContactRepository(DataContext context) : BaseRepository<ContactEnti
                 .Include(i => i.Address.Country)
                 .Include(i => i.Address.City)
                 .Include(i => i.Occupation.Occupation)
-                .FirstOrDefault(predicate, null!);
+                .FirstOrDefault(predicate)!;
         }
         catch (Exception ex) { Debug.WriteLine("ERROR ::" + ex.Message); }
         return null!;

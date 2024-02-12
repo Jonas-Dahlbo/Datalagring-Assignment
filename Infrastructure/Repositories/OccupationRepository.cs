@@ -24,7 +24,7 @@ public class OccupationRepository(DataContext context) : BaseRepository<Occupati
     {
         try
         {
-            return _context.Occupations.Include(i => i.Salary).FirstOrDefault(predicate, null!);
+            return _context.Occupations.Include(i => i.Salary).FirstOrDefault(predicate)!;
         }
         catch (Exception ex) { Debug.WriteLine("ERROR ::" + ex.Message); }
         return null!;

@@ -11,5 +11,5 @@ public class SalaryEntity
     [Column(TypeName ="money")]
     public decimal Salary { get; set; }
 
-    public virtual ICollection<OccupationEntity> Address { get; set; } = new List<OccupationEntity>();
+   // public virtual ICollection<OccupationEntity> Address { get; set; } = new List<OccupationEntity>();
 }
