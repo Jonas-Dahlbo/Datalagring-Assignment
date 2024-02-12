@@ -17,10 +17,11 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
             if (!_addressRepository.Exists(x => x.StreetName == address.StreetName && x.City == address.City))
             {
                 var countryEntity = _countryRepository.GetOne(x => x.Country == address.Country);
-                countryEntity ??= _countryRepository.Create(new CountryEntity { Country = address.Country, Continent = address.Continent });
+                countryEntity ??= _countryRepository.Create(new CountryEntity { Id = Guid.NewGuid().ToString(),Country = address.Country, Continent = address.Continent });
 
                 var addressEntity = new AddressEntity
                 {
+                    Id = Guid.NewGuid().ToString(),
                     City = address.City,
                     PostalCode = address.PostalCode,
                     StreetName = address.StreetName,

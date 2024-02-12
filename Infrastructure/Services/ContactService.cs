@@ -18,10 +18,11 @@ namespace Infrastructure.Services
                 if (!_contactRepository.Exists(x => x.Email == contact.Email))
                 {
                     var countryEntity = _countryRepository.GetOne(x => x.Country == contact.Country);
-                    countryEntity ??= _countryRepository.Create(new CountryEntity { Country = contact.Country, Continent = contact.Continent });
+                    countryEntity ??= _countryRepository.Create(new CountryEntity { Id = Guid.NewGuid().ToString(), Country = contact.Country, Continent = contact.Continent });
 
                     var addressEntity = new AddressEntity
                     {
+                        Id = Guid.NewGuid().ToString(),
                         City = contact.City,
                         PostalCode = contact.PostalCode,
                         StreetName = contact.StreetName,
@@ -29,10 +30,11 @@ namespace Infrastructure.Services
                     };
 
                     var salaryEntity = _salaryRepository.GetOne(x => x.Salary == contact.Salary);
-                    salaryEntity ??= _salaryRepository.Create(new SalaryEntity { Salary = contact.Salary });
+                    salaryEntity ??= _salaryRepository.Create(new SalaryEntity { Id = Guid.NewGuid().ToString(),Salary = contact.Salary });
 
                     var occupationEntity = new OccupationEntity
                     {
+                        Id = Guid.NewGuid().ToString(),
                         Occupation = contact.Occupation,
                         Description = contact.Description,
                         SalaryId = salaryEntity.Id
@@ -40,6 +42,7 @@ namespace Infrastructure.Services
 
                     var contactEntity = new ContactEntity
                     {
+                        Id = Guid.NewGuid().ToString(),
                         FirstName = contact.FirstName,
                         LastName = contact.LastName,
                         Email = contact.Email,

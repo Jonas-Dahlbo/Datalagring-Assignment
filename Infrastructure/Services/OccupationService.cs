@@ -17,10 +17,11 @@ public class OccupationService(OccupationRepository occupationRepository, Salary
             if (!_occupationRepository.Exists(x => x.Occupation == job.Occupation && x.Salary.Salary == job.Salary))
             {
                 var salaryEntity = _salaryRepository.GetOne(x => x.Salary == job.Salary);
-                salaryEntity ??= _salaryRepository.Create(new SalaryEntity { Salary = job.Salary });
+                salaryEntity ??= _salaryRepository.Create(new SalaryEntity { Id = Guid.NewGuid().ToString(), Salary = job.Salary });
 
                 var occupationEntity = new OccupationEntity
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Occupation = job.Occupation,
                     Description = job.Description,
                     SalaryId = salaryEntity.Id,
