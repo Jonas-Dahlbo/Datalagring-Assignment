@@ -10,7 +10,7 @@ public class OccupationService(OccupationRepository occupationRepository, Salary
     private readonly OccupationRepository _occupationRepository = occupationRepository;
     private readonly SalaryRepository _salaryRepository = salaryRepository;
 
-    public OccupationDto CreateOccupation(OccupationDto job)
+    public bool CreateOccupation(OccupationDto job)
     {
         try
         {
@@ -28,11 +28,11 @@ public class OccupationService(OccupationRepository occupationRepository, Salary
 
                 var result = _occupationRepository.Create(occupationEntity);
                 if (result != null)
-                    return job;
+                    return true;
             }
         }
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
-        return null!;
+        return false;
     }
 
     public IEnumerable<OccupationDto> GetAllOccupations()

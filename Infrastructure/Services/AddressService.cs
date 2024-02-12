@@ -10,7 +10,7 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
     private readonly AddressRepository _addressRepository = addressRepository;
     private readonly CountryRepository _countryRepository = countryRepository;
 
-    public AddressDto CreateAdress(AddressDto address)
+    public bool CreateAdress(AddressDto address)
     {
         try
         {
@@ -29,11 +29,11 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
 
                 var result = _addressRepository.Create(addressEntity);
                 if (result != null)
-                    return address;
+                    return true;
             }
         }
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
-        return null!;
+        return false;
     }
 
     public IEnumerable<AddressDto> GetAllAddresses()
