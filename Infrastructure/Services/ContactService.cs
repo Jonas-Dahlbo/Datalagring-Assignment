@@ -2,16 +2,13 @@
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
 using System.Diagnostics;
-using System.Net;
 
 namespace Infrastructure.Services
 {
-    public class ContactService(ContactRepository contactRepository, AddressRepository addressRepository, CountryRepository countryRepository, OccupationRepository occupationRepository, SalaryRepository salaryRepository)
+    public class ContactService(ContactRepository contactRepository, CountryRepository countryRepository, SalaryRepository salaryRepository)
     {
         private readonly ContactRepository _contactRepository = contactRepository;
-        private readonly AddressRepository _addressRepository = addressRepository;
         private readonly CountryRepository _countryRepository = countryRepository;
-        private readonly OccupationRepository _occupationRepository = occupationRepository;
         private readonly SalaryRepository _salaryRepository = salaryRepository;
 
         public bool CreateContact(ContactDto contact)
@@ -56,6 +53,99 @@ namespace Infrastructure.Services
                 }
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return false;
+        }
+
+        public IEnumerable<ContactDto> GetAllContacts()
+        {
+            var contacts = new List<ContactDto>();
+            try
+            {
+                var result = _contactRepository.GetAll();
+                foreach (var contact in result)
+                    contacts.Add(new ContactDto
+                    {
+                        FirstName = contact.FirstName,
+                        LastName = contact.LastName,
+                        Email = contact.Email,
+                        StreetName = contact.Address.StreetName,
+                        City = contact.Address.City,
+                        PostalCode = contact.Address.PostalCode,
+                        Country = contact.Address.Country.Country,
+                        Continent = contact.Address.Country.Continent,
+                        Occupation = contact.Occupation.Occupation,
+                        Description = contact.Occupation.Description,
+                        Salary = contact.Occupation.Salary.Salary
+                    });
+            }
+            catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+
+            return contacts;
+        }
+        public ContactDto GetOneContact(string email)
+        {
+            try
+            {
+                var contactEntity = _contactRepository.GetOne(x => x.Email == email);
+                if (contactEntity != null)
+                {
+                    var contactDto = new ContactDto
+                    {
+                        FirstName = contactEntity.FirstName,
+                        LastName = contactEntity.LastName,
+                        Email = contactEntity.Email,
+                        StreetName = contactEntity.Address.StreetName,
+                        City = contactEntity.Address.City,
+                        PostalCode = contactEntity.Address.PostalCode,
+                        Country = contactEntity.Address.Country.Country,
+                        Continent = contactEntity.Address.Country.Continent,
+                        Occupation = contactEntity.Occupation.Occupation,
+                        Description = contactEntity.Occupation.Description,
+                        Salary = contactEntity.Occupation.Salary.Salary
+                    };
+
+                    return contactDto;
+                }
+
+            }
+            catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+
+            return null!;
+        }
+        public ContactDto UpdateAddress(ContactEntity entity)
+        {
+            try
+            {
+                var contactEntity = _contactRepository.Update(entity);
+                if (contactEntity != null)
+                {
+                    var contactDto = new ContactDto
+                    {
+                        FirstName = contactEntity.FirstName,
+                        LastName = contactEntity.LastName,
+                        Email = contactEntity.Email,
+                        StreetName = contactEntity.Address.StreetName,
+                        City = contactEntity.Address.City,
+                        PostalCode = contactEntity.Address.PostalCode,
+                        Country = contactEntity.Address.Country.Country,
+                        Continent = contactEntity.Address.Country.Continent,
+                        Occupation = contactEntity.Occupation.Occupation,
+                        Description = contactEntity.Occupation.Description,
+                        Salary = contactEntity.Occupation.Salary.Salary
+                    };
+                    return contactDto;
+                }
+            }
+            catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+            return null!;
+        }
+        public bool RemoveContact(string contactId)
+        {
+            try
+            {
+                return _contactRepository.Delete(x => x.Id == contactId);
+            }
+            catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
             return false;
         }
     }
