@@ -89,7 +89,7 @@ namespace Infrastructure.Services
         {
             try
             {
-                var contactEntity = _contactRepository.GetOne(x => x.Email == email);
+                var contactEntity = _contactRepository.GetOne(x => x.Email.ToLower() == email.ToLower());
                 if (contactEntity != null)
                 {
                     var contactDto = new ContactDto
@@ -115,7 +115,7 @@ namespace Infrastructure.Services
 
             return null!;
         }
-        public ContactDto UpdateAddress(ContactEntity entity)
+        public ContactDto UpdateContact(ContactEntity entity)
         {
             try
             {
@@ -142,11 +142,11 @@ namespace Infrastructure.Services
             catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
             return null!;
         }
-        public bool RemoveContact(string contactId)
+        public bool RemoveContact(string email)
         {
             try
             {
-                return _contactRepository.Delete(x => x.Id == contactId);
+                return _contactRepository.Delete(x => x.Email.ToLower() == email.ToLower());
             }
             catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
             return false;

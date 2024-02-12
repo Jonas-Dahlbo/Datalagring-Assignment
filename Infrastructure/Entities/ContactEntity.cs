@@ -19,8 +19,10 @@ public class ContactEntity
     public string AddressId { get; set; } = null!;
     public virtual AddressEntity Address { get; set; } = null!;
 
+
     [Required]
     [ForeignKey(nameof(OccupationEntity))]
     public string OccupationId { get; set; } = null!;
     public virtual OccupationEntity Occupation { get; set; } = null!;
+
 }

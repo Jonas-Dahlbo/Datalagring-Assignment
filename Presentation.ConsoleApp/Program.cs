@@ -29,13 +29,13 @@ Console.ReadKey();
 var contactService = builder.Services.GetRequiredService<ContactService>();
 var result = contactService.CreateContact(new ContactDto
 {
-    FirstName = "Hank",
-    LastName = "Mohawk",
-    Email = "my@domain.com",
+    FirstName = "Per",
+    LastName = "Eriksson",
+    Email = "Per@domain.com",
     City = "Mora",
     PostalCode = "12345",
     StreetName = "Gågatan 12",
-    Country = "Sverige",
+    Country = "Norge",
     Continent = "Europa",
     Occupation = "Student",
     Description = "Learn things",
@@ -46,5 +46,22 @@ if (result)
     Console.WriteLine("Lyckades");
 else
     Console.WriteLine("Misslyckades");
+
+Console.ReadKey();
+
+result = contactService.RemoveContact("my@domain.com");
+if (result)
+    Console.WriteLine("Contact Removed");
+else
+    Console.WriteLine("Failed");
+
+var result2 = contactService.GetOneContact("new@domain.com");
+
+if(result2 == null)
+{
+    Console.WriteLine("GetOne Contact Failed!");
+}
+
+Console.WriteLine($"{result2.FirstName} {result2.LastName} {result2.Email} {result2.Continent} {result2.Country} {result2.City} {result2.PostalCode} {result2.StreetName} {result2.Occupation} {result2.Salary}");
 
 Console.ReadKey();

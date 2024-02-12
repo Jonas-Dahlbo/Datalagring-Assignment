@@ -2,7 +2,6 @@
 using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
@@ -16,9 +15,10 @@ public class ContactRepository(DataContext context) : BaseRepository<ContactEnti
         try
         {
             return _context.Contacts
-                .Include(i => i.Address.Country)
-                .Include(i => i.Address.City)
-                .Include (i => i.Occupation.Occupation)
+                .Include(i => i.Address)
+                .Include(i => i.Address).ThenInclude(i => i.Country)
+                .Include(i => i.Occupation)
+                .Include(i => i.Occupation).ThenInclude(i => i.Salary)
                 .ToList();
         }
         catch (Exception ex) { Debug.WriteLine("ERROR ::" + ex.Message); }
@@ -30,9 +30,10 @@ public class ContactRepository(DataContext context) : BaseRepository<ContactEnti
         try
         {
             return _context.Contacts
-                .Include(i => i.Address.Country)
-                .Include(i => i.Address.City)
-                .Include(i => i.Occupation.Occupation)
+                .Include(i => i.Address)
+                .Include(i => i.Address).ThenInclude(i => i.Country)
+                .Include(i => i.Occupation)
+                .Include(i => i.Occupation).ThenInclude(i => i.Salary)
                 .FirstOrDefault(predicate)!;
         }
         catch (Exception ex) { Debug.WriteLine("ERROR ::" + ex.Message); }
