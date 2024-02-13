@@ -130,7 +130,7 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
                 return countryEntity;
             }
         }
-        catch { }
+        catch(Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
     }
 

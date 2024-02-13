@@ -55,7 +55,7 @@ public class OccupationService(OccupationRepository occupationRepository, Salary
         return occupations;
     }
 
-    public OccupationDto GetOneOccupation(string job)
+    public (OccupationDto, OccupationEntity) GetOneOccupation(string job)
     {
         try
         {
@@ -69,13 +69,13 @@ public class OccupationService(OccupationRepository occupationRepository, Salary
                     Salary = occupationEntity.Salary.Salary,
                 };
 
-                return occupationDto;
+                return (occupationDto, occupationEntity);
             }
 
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
-        return null!;
+        return (null!, null!);
     }
 
     public OccupationDto UpdateOccupation(OccupationEntity entity)

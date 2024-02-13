@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Presentation.ConsoleApp.UI;
+using Presentation.ConsoleApp.UIs;
 
 var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
 {
@@ -22,6 +23,7 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddScoped<OccupationService>();
 
     services.AddScoped<Address_UI>();
+    services.AddScoped<Occupation_UI>();
 }).Build();
 
 builder.Start();
@@ -33,29 +35,31 @@ var AddresUI = builder.Services.GetRequiredService<Address_UI>();
 AddresUI.GetAddresses_UI();
 Console.ReadKey();
 var contactService = builder.Services.GetRequiredService<ContactService>();
-var addressService = builder.Services.GetService<AddressService>();
-var result = addressService.RemoveAdress("edcb96d1-eea5-4724-a925-0ba41b59644f");
+var addressService = builder.Services.GetRequiredService<AddressService>();
+var Occupation_UI = builder.Services.GetRequiredService<Occupation_UI>();
+
+/*var result = addressService.RemoveAdress("edcb96d1-eea5-4724-a925-0ba41b59644f");
 
 if (result)
     Console.WriteLine("Lyckades");
 else
     Console.WriteLine("Misslyckades");
-Console.ReadKey();
-/*var result = contactService.CreateContact(new ContactDto
+Console.ReadKey();*/
+/*
+var result2 = contactService.CreateContact(new ContactDto
 {
     FirstName = "Per",
     LastName = "Eriksson",
-    Email = "Test@domain.com",
+    Email = "Test4@domain.com",
     City = "Mora",
     PostalCode = "12345",
     StreetName = "TestGatan",
     Country = "Tyskland",
     Continent = "Europa",
-    Occupation = "Student",
-    Description = "Learn things",
-    Salary = 100
-});
-
+    Occupation = "Unemployed",
+    Salary = 1002
+}); */
+Occupation_UI.GetOccupations_UI();
 Console.ReadKey();
 /* var result2 = contactService.GetOneContact("new@domain.com");
 

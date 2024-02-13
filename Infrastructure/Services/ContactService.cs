@@ -90,7 +90,7 @@ namespace Infrastructure.Services
 
             return contacts;
         }
-        public ContactDto GetOneContact(string email)
+        public (ContactDto, ContactEntity) GetOneContact(string email)
         {
             try
             {
@@ -112,13 +112,13 @@ namespace Infrastructure.Services
                         Salary = contactEntity.Occupation.Salary.Salary
                     };
 
-                    return contactDto;
+                    return (contactDto, contactEntity);
                 }
 
             }
             catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
-            return null!;
+            return (null!, null!) ;
         }
         public ContactDto UpdateContact(ContactEntity entity)
         {

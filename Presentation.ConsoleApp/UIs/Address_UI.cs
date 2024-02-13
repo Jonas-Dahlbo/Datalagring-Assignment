@@ -34,52 +34,13 @@ public class Address_UI(AddressService addressService)
         }
         else
         {
-            Console.WriteLine("Could not create address, would you like to try again? y/n");
+            Console.WriteLine("Could not create Address, would you like to try again? y/n");
             if (Console.ReadLine()!.ToLower() == "y")
             {
                 CreateAddress_UI();
             }
-
-            //MENU_UI();
         }
     } //ADD MENU_UI ?
-
-    /*public void GetAddress_UI()
-    {
-        Console.Clear();
-        var addressDto = new AddressDto();
-
-        Console.WriteLine("------Get One Address------");
-
-        Console.WriteLine("Enter Street Name: ");
-        addressDto.StreetName = (Console.ReadLine()!);
-
-        Console.WriteLine("Enter Postal Code: ");
-        addressDto.PostalCode = (Console.ReadLine()!);
-
-        var address = _addressService.GetOneAddress(addressDto.StreetName, addressDto.PostalCode);
-
-        Console.Clear();
-
-        if (address.Item1 != null)
-        {
-            Console.WriteLine("Continent     Country     City     Postal Code     Street Name \n\n");
-            Console.WriteLine($"{address.Item1.Continent}     {address.Item1.Country}     {address.Item1.City}     {address.Item1.PostalCode}     {address.Item1.StreetName}");
-        }
-        else
-        {
-            Console.WriteLine("Something went wrong, would you like to try again? y/n");
-            
-            if (Console.ReadLine()!.ToLower() == "y")
-            {
-                GetAddress_UI();
-            }
-
-            //MENU_UI
-        }
-
-
-    }// ADD MENU_UI ? */
 
     public void GetAddresses_UI()
     {
@@ -110,7 +71,7 @@ public class Address_UI(AddressService addressService)
         var addressToUpdate = _addressService.GetOneAddress(addressDto.StreetName, addressDto.PostalCode);
 
         Console.Clear() ;
-        Console.WriteLine("-----Enter New Address Information-----");
+        Console.WriteLine("-----Enter Updated Address Information-----");
 
         Console.WriteLine("Enter Continent: ");
         addressToUpdate.Item2.Country.Continent = Console.ReadLine()!;
@@ -134,7 +95,7 @@ public class Address_UI(AddressService addressService)
 
             if (Console.ReadLine()!.ToLower() == "y")
             {
-                CreateAddress_UI();
+                UpdateAddress_UI();
             }
         }
     }// ADD MENU_UI ?
