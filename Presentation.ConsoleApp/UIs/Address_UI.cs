@@ -1,20 +1,12 @@
 ﻿using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Services;
-using System.Net;
 
 namespace Presentation.ConsoleApp.UI;
 
-public class Address_UI
+public class Address_UI(AddressService addressService)
 {
-    private readonly AddressService _addressService;
-
-    public Address_UI(AddressService addressService)
-    {
-        _addressService = addressService;
-    }
-
-
+    private readonly AddressService _addressService = addressService;
 
     public void CreateAddress_UI()
     {
@@ -34,9 +26,9 @@ public class Address_UI
         Console.WriteLine("Enter Street Name: ");
         addressDto.StreetName = Console.ReadLine()!;
 
-        AddressEntity result = _addressService.CreateAdress(addressDto);
+        bool result = _addressService.CreateAdress(addressDto);
 
-        if (result != null)
+        if (result)
         {
             Console.WriteLine("Address created");
         }
@@ -52,7 +44,7 @@ public class Address_UI
         }
     } //ADD MENU_UI ?
 
-    public void GetAddress_UI()
+    /*public void GetAddress_UI()
     {
         Console.Clear();
         var addressDto = new AddressDto();
@@ -87,7 +79,7 @@ public class Address_UI
         }
 
 
-    }// ADD MENU_UI ?
+    }// ADD MENU_UI ? */
 
     public void GetAddresses_UI()
     {
@@ -121,17 +113,15 @@ public class Address_UI
         Console.WriteLine("-----Enter New Address Information-----");
 
         Console.WriteLine("Enter Continent: ");
-        addressDto.Continent = Console.ReadLine()!;
+        addressToUpdate.Item2.Country.Continent = Console.ReadLine()!;
         Console.WriteLine("Enter Country: ");
-        addressDto.Country = Console.ReadLine()!;
+        addressToUpdate.Item2.Country.Country = Console.ReadLine()!;
         Console.WriteLine("Enter City: ");
-        addressDto.City = Console.ReadLine()!;
+        addressToUpdate.Item2.City = Console.ReadLine()!;
         Console.WriteLine("Enter Postal Code: ");
-        addressDto.PostalCode = Console.ReadLine()!;
+        addressToUpdate.Item2.PostalCode = Console.ReadLine()!;
         Console.WriteLine("Enter Street Name: ");
-        addressDto.StreetName = Console.ReadLine()!;
-
-        addressToUpdate.Item2 = _addressService.CreateAdress(addressDto);
+        addressToUpdate.Item2.StreetName = Console.ReadLine()!;
         
         if (addressToUpdate.Item2 != null)
         {

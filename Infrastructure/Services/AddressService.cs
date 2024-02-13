@@ -10,7 +10,7 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
     private readonly AddressRepository _addressRepository = addressRepository;
     private readonly CountryRepository _countryRepository = countryRepository;
 
-    public AddressEntity CreateAdress(AddressDto address)
+    public bool CreateAdress(AddressDto address)
     {
         try
         {
@@ -30,11 +30,11 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
 
                 var result = _addressRepository.Create(addressEntity);
                 if (result != null)
-                    return addressEntity;
+                    return true;
             }
         }
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
-        return null!;
+        return false;
     }
 
     public IEnumerable<AddressDto> GetAllAddresses()
@@ -82,7 +82,21 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
 
         return (null!, null!);
     }
+    public AddressEntity GetOneAddressByID(string addressId)
+    {
+        try
+        {
+            var addressEntity = _addressRepository.GetOne(x => x.Id == addressId);
+            if (addressEntity != null)
+            {
+                return addressEntity;
+            }
 
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+
+        return null!;
+    }
     public AddressDto UpdateAddress(AddressEntity entity)
     {
         try
@@ -105,11 +119,36 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
         return null!;
     }
 
+
+    public CountryEntity GetCountryByID(string countryId)
+    {
+        try
+        {
+            var countryEntity = _countryRepository.GetOne(x => x.Id == countryId);
+            if (countryEntity != null)
+            {
+                return countryEntity;
+            }
+        }
+        catch { }
+        return null!;
+    }
+
     public bool RemoveAdress(string addressId)
     {
         try
         {
-            return _addressRepository.Delete(x => x.Id == addressId);
+            AddressEntity addressEntity = GetOneAddressByID(addressId); 
+            CountryEntity countryEntity = GetCountryByID(addressEntity.Country.Id);
+            
+            var countryId = addressEntity.Country.Id;
+           
+            var result = _addressRepository.Delete(x => x.Id == addressId);
+
+            if (!countryEntity.Address.Any())
+                _countryRepository.Delete(x => x.Id == countryId);
+
+            return result;
         }
         catch(Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return false;

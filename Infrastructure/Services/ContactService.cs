@@ -5,11 +5,13 @@ using System.Diagnostics;
 
 namespace Infrastructure.Services
 {
-    public class ContactService(ContactRepository contactRepository, CountryRepository countryRepository, SalaryRepository salaryRepository)
+    public class ContactService(ContactRepository contactRepository, CountryRepository countryRepository, SalaryRepository salaryRepository, AddressRepository addressRepository, OccupationRepository occupationRepository)
     {
         private readonly ContactRepository _contactRepository = contactRepository;
         private readonly CountryRepository _countryRepository = countryRepository;
+        private readonly AddressRepository _addressRepository = addressRepository;
         private readonly SalaryRepository _salaryRepository = salaryRepository;
+        private readonly OccupationRepository _occupationRepository = occupationRepository;
 
         public bool CreateContact(ContactDto contact)
         {
@@ -20,25 +22,28 @@ namespace Infrastructure.Services
                     var countryEntity = _countryRepository.GetOne(x => x.Country == contact.Country);
                     countryEntity ??= _countryRepository.Create(new CountryEntity { Id = Guid.NewGuid().ToString(), Country = contact.Country, Continent = contact.Continent });
 
-                    var addressEntity = new AddressEntity
+                    var addressEntity = _addressRepository.GetOne(x => x.StreetName == contact.StreetName && x.PostalCode == contact.PostalCode);
+                    addressEntity ??= _addressRepository.Create(new AddressEntity
                     {
                         Id = Guid.NewGuid().ToString(),
                         City = contact.City,
                         PostalCode = contact.PostalCode,
                         StreetName = contact.StreetName,
                         Country = countryEntity,
-                    };
+                    });
 
                     var salaryEntity = _salaryRepository.GetOne(x => x.Salary == contact.Salary);
-                    salaryEntity ??= _salaryRepository.Create(new SalaryEntity { Id = Guid.NewGuid().ToString(),Salary = contact.Salary });
+                    salaryEntity ??= _salaryRepository.Create(new SalaryEntity { Id = Guid.NewGuid().ToString(), Salary = contact.Salary });
 
-                    var occupationEntity = new OccupationEntity
+
+                    var occupationEntity = _occupationRepository.GetOne(x => x.Occupation == contact.Occupation);
+                    occupationEntity ??= _occupationRepository.Create(new OccupationEntity
                     {
                         Id = Guid.NewGuid().ToString(),
                         Occupation = contact.Occupation,
                         Description = contact.Description,
                         Salary = salaryEntity
-                    };
+                    });
 
                     var contactEntity = new ContactEntity
                     {

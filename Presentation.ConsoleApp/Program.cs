@@ -5,6 +5,7 @@ using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Presentation.ConsoleApp.UI;
 
 var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
 {
@@ -20,42 +21,43 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddScoped<ContactService>();
     services.AddScoped<OccupationService>();
 
+    services.AddScoped<Address_UI>();
 }).Build();
 
 builder.Start();
 
 Console.Clear();
 Console.ReadKey();
+
+var AddresUI = builder.Services.GetRequiredService<Address_UI>();
+AddresUI.GetAddresses_UI();
+Console.ReadKey();
 var contactService = builder.Services.GetRequiredService<ContactService>();
-var result = contactService.CreateContact(new ContactDto
+var addressService = builder.Services.GetService<AddressService>();
+var result = addressService.RemoveAdress("edcb96d1-eea5-4724-a925-0ba41b59644f");
+
+if (result)
+    Console.WriteLine("Lyckades");
+else
+    Console.WriteLine("Misslyckades");
+Console.ReadKey();
+/*var result = contactService.CreateContact(new ContactDto
 {
     FirstName = "Per",
     LastName = "Eriksson",
-    Email = "Per@domain.com",
+    Email = "Test@domain.com",
     City = "Mora",
     PostalCode = "12345",
-    StreetName = "Gågatan 12",
-    Country = "Norge",
+    StreetName = "TestGatan",
+    Country = "Tyskland",
     Continent = "Europa",
     Occupation = "Student",
     Description = "Learn things",
     Salary = 100
 });
 
-if (result)
-    Console.WriteLine("Lyckades");
-else
-    Console.WriteLine("Misslyckades");
-
 Console.ReadKey();
-
-result = contactService.RemoveContact("my@domain.com");
-if (result)
-    Console.WriteLine("Contact Removed");
-else
-    Console.WriteLine("Failed");
-
-var result2 = contactService.GetOneContact("new@domain.com");
+/* var result2 = contactService.GetOneContact("new@domain.com");
 
 if(result2 == null)
 {
@@ -63,5 +65,4 @@ if(result2 == null)
 }
 
 Console.WriteLine($"{result2.FirstName} {result2.LastName} {result2.Email} {result2.Continent} {result2.Country} {result2.City} {result2.PostalCode} {result2.StreetName} {result2.Occupation} {result2.Salary}");
-
-Console.ReadKey();
+*/
