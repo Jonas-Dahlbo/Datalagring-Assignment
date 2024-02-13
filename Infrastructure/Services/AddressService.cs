@@ -10,7 +10,7 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
     private readonly AddressRepository _addressRepository = addressRepository;
     private readonly CountryRepository _countryRepository = countryRepository;
 
-    public bool CreateAdress(AddressDto address)
+    public AddressEntity CreateAdress(AddressDto address)
     {
         try
         {
@@ -30,11 +30,11 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
 
                 var result = _addressRepository.Create(addressEntity);
                 if (result != null)
-                    return true;
+                    return addressEntity;
             }
         }
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
-        return false;
+        return null!;
     }
 
     public IEnumerable<AddressDto> GetAllAddresses()
@@ -58,14 +58,14 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
         return addresses;
     }
 
-    public AddressDto GetOneAddress(string streetName, string postalCode)
+    public (AddressDto, AddressEntity) GetOneAddress(string streetName, string postalCode)
     {
         try
         {
             var addressEntity = _addressRepository.GetOne(x => x.StreetName == streetName && x.PostalCode == postalCode);
             if (addressEntity != null)
             {
-                var addressDto = new AddressDto
+                AddressDto addressDto = new AddressDto
                 {
                     StreetName = addressEntity.StreetName,
                     City = addressEntity.City,
@@ -74,13 +74,13 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
                     Continent = addressEntity.Country.Continent
                 };
                 
-                return addressDto;
+                return (addressDto, addressEntity);
             }
 
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
-        return null!;
+        return (null!, null!);
     }
 
     public AddressDto UpdateAddress(AddressEntity entity)
