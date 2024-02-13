@@ -85,7 +85,7 @@ public class Address_UI(AddressService addressService)
         
         if (addressToUpdate.Item2 != null)
         {
-            var newAddress = _addressService.UpdateAddress(addressToUpdate.Item2);
+            var newAddress = _addressService.UpdateAddress(addressToUpdate.Item2, addressToUpdate.Item2.Id);
             Console.WriteLine($"{newAddress.Continent}     {newAddress.Country}     {newAddress.City}     {newAddress.PostalCode}     {newAddress.StreetName}\n");
         }
         else

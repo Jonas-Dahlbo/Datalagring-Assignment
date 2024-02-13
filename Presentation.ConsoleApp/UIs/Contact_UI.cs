@@ -107,49 +107,49 @@ public class Contact_UI(ContactService contactService)
     {
         Console.Clear();
 
-        ContactDto contactDto = new ContactDto();
+        string contactEmail;
 
         Console.WriteLine("-----Choose which Address to Update-----\n");
         GetContacts_UI();
 
         Console.WriteLine("\nEnter Email: ");
-        contactDto.Email = Console.ReadLine()!;
+        contactEmail = Console.ReadLine()!;
 
-        var contactToUpdate = _contactService.GetOneContact(contactDto.Email);
+        var contactToUpdate = _contactService.GetOneContact(contactEmail);
 
         Console.Clear();
         Console.WriteLine("-----Enter Updated Contact Information-----");
 
         Console.WriteLine("Enter First Name: ");
-        contactDto.FirstName = Console.ReadLine()!;
+        contactToUpdate.Item2.FirstName = Console.ReadLine()!;
         Console.WriteLine("Enter Last Name: ");
-        contactDto.LastName = Console.ReadLine()!;
+        contactToUpdate.Item2.LastName = Console.ReadLine()!;
         Console.WriteLine("Enter Email Address: ");
-        contactDto.Email = Console.ReadLine()!;
+        contactToUpdate.Item2.Email = Console.ReadLine()!;
         Console.WriteLine("\nEnter Continent: ");
-        contactDto.Continent = Console.ReadLine()!;
+        contactToUpdate.Item2.Address.Country.Continent = Console.ReadLine()!;
         Console.WriteLine("Enter Country: ");
-        contactDto.Country = Console.ReadLine()!;
+        contactToUpdate.Item2.Address.Country.Country = Console.ReadLine()!;
         Console.WriteLine("Enter City: ");
-        contactDto.City = Console.ReadLine()!;
+        contactToUpdate.Item2.Address.City = Console.ReadLine()!;
         Console.WriteLine("Enter Postal Code: ");
-        contactDto.PostalCode = Console.ReadLine()!;
+        contactToUpdate.Item2.Address.PostalCode = Console.ReadLine()!;
         Console.WriteLine("Enter Street Name: ");
-        contactDto.StreetName = Console.ReadLine()!;
+        contactToUpdate.Item2.Address.StreetName = Console.ReadLine()!;
         Console.WriteLine("\nEnter Occupation: ");
-        contactDto.Occupation = Console.ReadLine()!;
+        contactToUpdate.Item2.Occupation.Occupation = Console.ReadLine()!;
         Console.WriteLine("Do you wish to enter a description of the Occupation? y/n");
         if (Console.ReadLine()!.ToLower() == "y")
         {
             Console.WriteLine("Enter Description: ");
-            contactDto.Description = Console.ReadLine()!;
+            contactToUpdate.Item2.Occupation.Description = Console.ReadLine()!;
         }
         Console.WriteLine("\nEnter Salary: ");
-        contactDto.Salary = decimal.Parse(Console.ReadLine()!);
+        contactToUpdate.Item2.Occupation.Salary.Salary = decimal.Parse(Console.ReadLine()!);
 
         if (contactToUpdate.Item2 != null)
         {
-            var newContact = _contactService.UpdateContact(contactToUpdate.Item2);
+            var newContact = _contactService.UpdateContact(contactToUpdate.Item2, contactToUpdate.Item2.Id);
             Console.WriteLine("First name     Last Name     Email\n");
             Console.WriteLine($"{newContact.FirstName}     {newContact.LastName}     {newContact.Email}");
             Console.WriteLine("Continent     Country     City     Postal Code     Street Name\n");

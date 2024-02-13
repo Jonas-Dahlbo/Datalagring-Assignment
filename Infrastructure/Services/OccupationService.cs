@@ -16,8 +16,7 @@ public class OccupationService(OccupationRepository occupationRepository, Salary
         {
             if (!_occupationRepository.Exists(x => x.Occupation == job.Occupation && x.Salary.Salary == job.Salary))
             {
-                var salaryEntity = _salaryRepository.GetOne(x => x.Salary == job.Salary);
-                salaryEntity ??= _salaryRepository.Create(new SalaryEntity { Id = Guid.NewGuid().ToString(), Salary = job.Salary });
+                var salaryEntity = _salaryRepository.Create(new SalaryEntity { Id = Guid.NewGuid().ToString(), Salary = job.Salary });
 
                 var occupationEntity = new OccupationEntity
                 {
@@ -78,11 +77,11 @@ public class OccupationService(OccupationRepository occupationRepository, Salary
         return (null!, null!);
     }
 
-    public OccupationDto UpdateOccupation(OccupationEntity entity)
+    public OccupationDto UpdateOccupation(OccupationEntity entity, string entityId)
     {
         try
         {
-            var occupationEntity = _occupationRepository.Update(entity);
+            var occupationEntity = _occupationRepository.Update(entity, entityId);
             if (occupationEntity != null)
             {
                 var occupationDto = new OccupationDto

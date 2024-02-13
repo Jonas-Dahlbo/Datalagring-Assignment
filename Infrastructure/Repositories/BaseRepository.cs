@@ -49,15 +49,15 @@ public abstract class BaseRepository<TEntity> where TEntity : class
         return null!;
     }
 
-    public virtual TEntity Update(TEntity entity)
+    public virtual TEntity Update(TEntity entity, string entityId)
     {
         try
         {
-            var entityToUpdate = _context.Set<TEntity>().Find(entity);
+            var entityToUpdate = _context.Set<TEntity>().Find(entityId);
             if (entityToUpdate != null)
             {
-                entityToUpdate = entity;
                 _context.Set<TEntity>().Update(entityToUpdate);
+                entityToUpdate = entity;
                 _context.SaveChanges();
                 return entityToUpdate;
             }

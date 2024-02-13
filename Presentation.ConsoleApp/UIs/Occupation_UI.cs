@@ -41,8 +41,6 @@ public class Occupation_UI(OccupationService occupationService)
             {
                 CreateOccupation_UI();
             }
-
-            //MENU_UI();
         }
     } 
 
@@ -77,15 +75,19 @@ public class Occupation_UI(OccupationService occupationService)
 
         Console.WriteLine("Enter Occupation: ");
         occupationToUpdate.Item2.Occupation = Console.ReadLine()!;
-        Console.WriteLine("Enter Country: ");
-        occupationToUpdate.Item2.Description = Console.ReadLine()!;
+        Console.WriteLine("Do you wish to enter a description of the Occupation? y/n");
+        if (Console.ReadLine()!.ToLower() == "y")
+        {
+            Console.WriteLine("Enter Description: ");
+            occupationToUpdate.Item2.Description = Console.ReadLine()!;
+        }
         Console.WriteLine("Enter Salary: ");
         occupationToUpdate.Item2.Salary.Salary = decimal.Parse(Console.ReadLine()!);
         
 
         if (occupationToUpdate.Item2 != null)
         {
-            var newOccupation = _occupationService.UpdateOccupation(occupationToUpdate.Item2);
+            var newOccupation = _occupationService.UpdateOccupation(occupationToUpdate.Item2, occupationToUpdate.Item2.Id);
             Console.WriteLine($"{newOccupation.Occupation}     {newOccupation.Salary}     {newOccupation.Description}\n");
         }
         else

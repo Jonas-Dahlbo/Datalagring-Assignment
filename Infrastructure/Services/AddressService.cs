@@ -97,11 +97,11 @@ public class AddressService(AddressRepository addressRepository, CountryReposito
 
         return null!;
     }
-    public AddressDto UpdateAddress(AddressEntity entity)
+    public AddressDto UpdateAddress(AddressEntity entity, string entityId)
     {
         try
         {
-            var addressEntity = _addressRepository.Update(entity);
+            var addressEntity = _addressRepository.Update(entity, entityId);
             if (addressEntity != null)
             {
                 var addressDto = new AddressDto

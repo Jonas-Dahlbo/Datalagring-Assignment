@@ -32,8 +32,7 @@ namespace Infrastructure.Services
                         Country = countryEntity,
                     });
 
-                    var salaryEntity = _salaryRepository.GetOne(x => x.Salary == contact.Salary);
-                    salaryEntity ??= _salaryRepository.Create(new SalaryEntity { Id = Guid.NewGuid().ToString(), Salary = contact.Salary });
+                    var salaryEntity = _salaryRepository.Create(new SalaryEntity { Id = Guid.NewGuid().ToString(), Salary = contact.Salary });
 
 
                     var occupationEntity = _occupationRepository.GetOne(x => x.Occupation == contact.Occupation);
@@ -120,11 +119,11 @@ namespace Infrastructure.Services
 
             return (null!, null!) ;
         }
-        public ContactDto UpdateContact(ContactEntity entity)
+        public ContactDto UpdateContact(ContactEntity entity, string entityId)
         {
             try
             {
-                var contactEntity = _contactRepository.Update(entity);
+                var contactEntity = _contactRepository.Update(entity, entityId);
                 if (contactEntity != null)
                 {
                     var contactDto = new ContactDto
