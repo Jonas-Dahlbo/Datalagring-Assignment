@@ -1,8 +1,7 @@
 ﻿using Infrastructure.Dtos;
-using Infrastructure.Entities;
 using Infrastructure.Services;
 
-namespace Presentation.ConsoleApp.UI;
+namespace Presentation.ConsoleApp.UIs;
 
 public class Address_UI(AddressService addressService)
 {
@@ -40,14 +39,14 @@ public class Address_UI(AddressService addressService)
                 CreateAddress_UI();
             }
         }
-    } //ADD MENU_UI ?
+    } 
 
     public void GetAddresses_UI()
     {
 
         var addresses = _addressService.GetAllAddresses();
         
-        Console.WriteLine("Continent     Country     City     Postal Code     Street Name \n\n");
+        Console.WriteLine("Continent     Country     City     Postal Code     Street Name \n");
         foreach (var address in addresses)
         {
             Console.WriteLine($"{address.Continent}     {address.Country}     {address.City}     {address.PostalCode}     {address.StreetName}");
@@ -98,7 +97,7 @@ public class Address_UI(AddressService addressService)
                 UpdateAddress_UI();
             }
         }
-    }// ADD MENU_UI ?
+    }
 
 
 }

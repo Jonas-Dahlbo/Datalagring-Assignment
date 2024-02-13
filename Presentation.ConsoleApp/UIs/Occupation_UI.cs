@@ -44,7 +44,7 @@ public class Occupation_UI(OccupationService occupationService)
 
             //MENU_UI();
         }
-    } //ADD MENU_UI ?
+    } 
 
     public void GetOccupations_UI()
     {
@@ -97,5 +97,5 @@ public class Occupation_UI(OccupationService occupationService)
                 UpdateOccupation_UI();
             }
         }
-    }// ADD MENU_UI ?
+    }
 }

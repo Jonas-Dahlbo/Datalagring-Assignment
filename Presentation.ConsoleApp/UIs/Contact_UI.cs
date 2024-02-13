@@ -56,14 +56,15 @@ public class Contact_UI(ContactService contactService)
                 CreateContact_UI();
             }
         }
-    } //ADD MENU_UI ?
+    } 
 
     public void GetContacts_UI()
     {
-        Console.WriteLine("------Contact List------\n");
+        Console.Clear();
+        Console.WriteLine("\n------Contact List------");
         var contacts = _contactService.GetAllContacts();
 
-        Console.WriteLine("First name     Last Name     Email     Country     City     Occupation\n\n");
+        Console.WriteLine("First name     Last Name     Email     Country     City     Occupation\n");
         foreach (var contact in contacts)
         {
             Console.WriteLine($"{contact.FirstName}     {contact.LastName}     {contact.Email}     {contact.Country}     {contact.City}     {contact.Occupation}");
@@ -72,7 +73,6 @@ public class Contact_UI(ContactService contactService)
 
     public void GetOneContact_UI()
     {
-        Console.Clear();
         var contactDto = new ContactDto();
 
         Console.WriteLine("------Get One Contact------");
@@ -86,12 +86,11 @@ public class Contact_UI(ContactService contactService)
 
         if (contact.Item1 != null)
         {
-            Console.WriteLine("First name     Last Name     Email\n");
-            Console.WriteLine($"{contact.Item1.FirstName}     {contact.Item1.LastName}     {contact.Item1.Email}");
-            Console.WriteLine("Continent     Country     City     Postal Code     Street Name\n");
-            Console.WriteLine($"{contact.Item1.Continent}     {contact.Item1.Country}     {contact.Item1.City}     {contact.Item1.PostalCode}     {contact.Item1.StreetName}");
-            Console.WriteLine("Occupation     Salary     Description\n");
-            Console.WriteLine($"{contact.Item1.Occupation}     {contact.Item1.Salary}     {contact.Item1.Description}");
+            Console.WriteLine($"\n{contact.Item1.FirstName}     {contact.Item1.LastName}     {contact.Item1.Email}");
+            Console.WriteLine("\nAddress:");
+            Console.WriteLine($"{contact.Item1.StreetName}   {contact.Item1.PostalCode}      {contact.Item1.City}   {contact.Item1.Country}   {contact.Item1.Continent}\n");
+            Console.WriteLine("Occupation     Salary     Description");
+            Console.WriteLine($"{contact.Item1.Occupation}     {contact.Item1.Salary}     {contact.Item1.Description}\n");
         }
         else
         {
@@ -167,7 +166,7 @@ public class Contact_UI(ContactService contactService)
                 UpdateContact_UI();
             }
         }
-    }// ADD MENU_UI ?
+    }
 
     public void RemoveContact_UI()
     {
@@ -184,8 +183,5 @@ public class Contact_UI(ContactService contactService)
             Console.WriteLine("Contact Removed");
         else 
             Console.WriteLine("Something Went Wrong");
-        Console.WriteLine("Press any key to return to menu");
-        Console.ReadKey();
-        Console.Clear();
     }
 }
